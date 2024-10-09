@@ -4,12 +4,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "npm run dev -w react-frontend"
+    "start": "npm run dev -w react-frontend"
   },
   "author": "",
   "license": "ISC",
   "workspaces": [
     "packages/*"
   ],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
 }
