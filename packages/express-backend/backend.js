@@ -45,17 +45,34 @@ const findUserByName = (name) => {
       (user) => user["name"] === name
     );
 };
+
+const findUserByNameAndJob = (name, job) => {
+    return users["users_list"].filter(
+        (user) => user["name"] === name && user["job"] === job
+    );
+};
+
   
 app.get("/users", (req, res) => {
     const name = req.query.name;
-    if (name != undefined) {
-        let result = findUserByName(name);
+    const job = req.query.job;
+
+    let result;
+
+    if (name != undefined && job != undefined) {
+        result = findUserByNameAndJob(name, job);
         result = { users_list: result };
-        res.send(result);
+    } else if (name != undefined) {
+        result = findUserByName(name);
+        result = { users_list: result };
     } else {
         res.send(users);
+        return;
     }
+    
+    res.send(result);
 });
+
 
 const findUserById = (id) =>
     users["users_list"].find((user) => user["id"] === id);
@@ -67,6 +84,26 @@ app.get("/users/:id", (req, res) => {
         res.status(404).send("Resource not found.");
     } else {
         res.send(result);
+    }
+
+});
+
+const deleteUserById = (id) => {
+    const userIndex = users["users_list"].findIndex((user) => user.id === id);
+    
+    if (userIndex === -1) return false;
+
+    users["users_list"].splice(userIndex, 1);
+    return true;
+};
+
+app.delete("/users/:id", (req, res) => {
+    const id = req.params["id"];
+    const deleted = deleteUserById(id);
+    if (deleted) {
+        res.status(204).send(); 
+    } else {
+        res.status(404).send("Resource not found.");
     }
 });
 
