@@ -29,7 +29,7 @@ function MyApp() {
 
     const character = characters[index];
 
-    const id = character.id;
+    const id = character._id;
 
     fetch(`http://localhost:8000/users/${id}`, {
       method: 'DELETE',
